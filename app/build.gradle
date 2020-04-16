@@ -7,8 +7,8 @@ android {
         applicationId "com.fitpolo.demo.h707"
         minSdkVersion 18
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "2.0"
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -52,5 +52,11 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.jakewharton:butterknife:7.0.1'
     implementation 'com.android.support:support-v4:28.0.0'
+    // Toasty
+    implementation 'com.github.GrenderG:Toasty:1.4.1'
+    // constraint layout
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    // smartrefresh
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-20'
     implementation project(path: ':fitpolosupport')
 }

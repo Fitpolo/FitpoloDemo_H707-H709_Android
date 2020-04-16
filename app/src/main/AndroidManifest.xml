@@ -2,6 +2,7 @@
     package="com.fitpolo.demo.h707">
 
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name="com.fitpolo.demo.h707.BaseApplication"
@@ -29,6 +30,9 @@
         <activity
             android:name="com.fitpolo.demo.h707.activity.MessageNotificationActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.fitpolo.demo.h707.activity.ChangeScreenBGActivity"
+            android:screenOrientation="portrait" />
 
         <service android:name="com.fitpolo.demo.h707.service.MokoService" />
 
@@ -42,6 +46,16 @@
         </service>
         <service android:name="com.fitpolo.demo.h707.service.FitpoloNotificationCollectorMonitorService" />
         <service android:name="com.fitpolo.demo.h707.service.DfuService" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.fitpolo.demo.h707.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

@@ -46,7 +46,8 @@ public class MokoLeScanHandler extends ScanCallback {
             String verifyCode = DigitalConver.byte2HexString(manufacturerSpecificData[2])
                     + DigitalConver.byte2HexString(manufacturerSpecificData[3])
                     + DigitalConver.byte2HexString(manufacturerSpecificData[4]);
-            if (!"07".equals(DigitalConver.byte2HexString(manufacturerSpecificData[4]))) {
+            int deviceType = manufacturerSpecificData[4] & 0xFF;
+            if (deviceType != 7 && deviceType != 9) {
                 return;
             }
             BleDevice bleDevice = new BleDevice();
@@ -55,6 +56,7 @@ public class MokoLeScanHandler extends ScanCallback {
             bleDevice.rssi = rssi;
             bleDevice.scanRecord = scanRecord;
             bleDevice.verifyCode = verifyCode;
+            bleDevice.deviceType = deviceType;
             reference.get().onScanDevice(bleDevice);
         }
     }

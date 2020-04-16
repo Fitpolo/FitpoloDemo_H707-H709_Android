@@ -7,11 +7,12 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 
 import com.fitpolo.support.log.LogModule;
 
-public class BaseActivity extends Activity {
+public class BaseActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,5 +56,9 @@ public class BaseActivity extends Activity {
 
     public boolean isLocationPermissionOpen() {
         return ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public boolean isCameraPermissionOpen() {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
     }
 }

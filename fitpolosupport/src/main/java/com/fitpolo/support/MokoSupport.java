@@ -41,6 +41,7 @@ import com.fitpolo.support.handler.MokoLeScanHandler;
 import com.fitpolo.support.log.LogModule;
 import com.fitpolo.support.task.OpenNotifyTask;
 import com.fitpolo.support.task.OrderTask;
+import com.fitpolo.support.task.UpgradeBandTask;
 import com.fitpolo.support.task.ZReadSleepGeneralTask;
 import com.fitpolo.support.utils.BaseHandler;
 import com.fitpolo.support.utils.BleConnectionCompat;
@@ -435,7 +436,9 @@ public class MokoSupport implements MokoResponseCallback {
 
     @Override
     public void onCharacteristicWrite(byte[] value) {
-
+        if ((value[0] & 0xff) == UpgradeBandTask.HEADER_UPGRADE_BAND && mIUpgradeDataListener != null) {
+            mIUpgradeDataListener.onDataSendSuccess(value);
+        }
     }
 
     @Override
@@ -498,11 +501,31 @@ public class MokoSupport implements MokoResponseCallback {
                     break;
                 case HANDLER_MESSAGE_WHAT_SERVICES_DISCOVERED:
                     LogModule.i("连接成功！");
-                    mCharacteristicMap = MokoCharacteristicHandler.getInstance().getCharacteristics(mBluetoothGatt);
-                    sendOrder(new OpenNotifyTask(OrderType.READ_CHARACTER, OrderEnum.READ_NOTIFY, null),
-                            new OpenNotifyTask(OrderType.WRITE_CHARACTER, OrderEnum.WRITE_NOTIFY, null),
-                            new OpenNotifyTask(OrderType.STEP_CHARACTER, OrderEnum.STEP_NOTIFY, null),
-                            new OpenNotifyTask(OrderType.HEART_RATE_CHARACTER, OrderEnum.HEART_RATE_NOTIFY, null));
+                    try {
+                        synchronized (MokoSupport.class) {
+                            mCharacteristicMap = MokoCharacteristicHandler.getInstance().getCharacteristics(mBluetoothGatt);
+                        }
+                        if (mCharacteristicMap == null || mCharacteristicMap.isEmpty()) {
+                            LogModule.e("打开服务：特征为空！！！");
+                            disConnectBle();
+                            return;
+                        }
+                    } catch (Exception e) {
+                        LogModule.e("打开服务：发生异常！！！");
+                        LogModule.e(e.toString());
+                        disConnectBle();
+                        return;
+                    }
+                    mHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            sendOrder(new OpenNotifyTask(OrderType.NOTIFY, OrderEnum.OPEN_NOTIFY, null),
+                                    new OpenNotifyTask(OrderType.READ_CHARACTER, OrderEnum.READ_NOTIFY, null),
+                                    new OpenNotifyTask(OrderType.WRITE_CHARACTER, OrderEnum.WRITE_NOTIFY, null),
+                                    new OpenNotifyTask(OrderType.STEP_CHARACTER, OrderEnum.STEP_NOTIFY, null),
+                                    new OpenNotifyTask(OrderType.HEART_RATE_CHARACTER, OrderEnum.HEART_RATE_NOTIFY, null));
+                        }
+                    }, 300);
                     break;
                 case HANDLER_MESSAGE_WHAT_DISCONNECT:
                     if (mQueue != null && !mQueue.isEmpty()) {
@@ -713,6 +736,32 @@ public class MokoSupport implements MokoResponseCallback {
                 mBluetoothGatt.writeCharacteristic(mokoCharacteristic.characteristic);
             }
         });
+    }
+
+    public interface IUpgradeDataListener {
+        void onDataSendSuccess(byte[] values);
+    }
+
+    private IUpgradeDataListener mIUpgradeDataListener;
+
+    // 发送升级命令
+    public void sendUpgradeOrder(OrderTask orderTask, IUpgradeDataListener IUpgradeDataListener) {
+        mIUpgradeDataListener = IUpgradeDataListener;
+        if (mCharacteristicMap == null || mCharacteristicMap.isEmpty()) {
+            LogModule.e("发送升级：特征为空！！！");
+            disConnectBle();
+            return;
+        }
+        final MokoCharacteristic mokoCharacteristic = mCharacteristicMap.get(orderTask.orderType);
+        if (mokoCharacteristic == null) {
+            LogModule.i("executeTask : mokoCharacteristic is null");
+            return;
+        }
+        LogModule.i("app to device WRITE no response : " + orderTask.orderType.getName());
+        LogModule.i(DigitalConver.bytesToHexString(orderTask.assemble()));
+        mokoCharacteristic.characteristic.setValue(orderTask.assemble());
+        mokoCharacteristic.characteristic.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_NO_RESPONSE);
+        mBluetoothGatt.writeCharacteristic(mokoCharacteristic.characteristic);
     }
 
     /**

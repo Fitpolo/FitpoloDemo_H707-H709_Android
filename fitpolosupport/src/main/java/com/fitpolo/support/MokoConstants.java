@@ -24,15 +24,15 @@ public class MokoConstants {
     public static final int HEADER_HEARTRATE_GET = 0xB7;
 
     // 发现状态
-    public static final String ACTION_DISCOVER_SUCCESS = "com.moko.fitpolo.ACTION_DISCOVER_SUCCESS";
-    public static final String ACTION_DISCOVER_TIMEOUT = "com.moko.fitpolo.ACTION_DISCOVER_TIMEOUT";
+    public static final String ACTION_DISCOVER_SUCCESS = "com.fitpolo.demo.h707.ACTION_DISCOVER_SUCCESS";
+    public static final String ACTION_DISCOVER_TIMEOUT = "com.fitpolo.demo.h707.ACTION_DISCOVER_TIMEOUT";
     // 断开连接
-    public static final String ACTION_CONN_STATUS_DISCONNECTED = "com.moko.fitpolo.ACTION_CONN_STATUS_DISCONNECTED";
+    public static final String ACTION_CONN_STATUS_DISCONNECTED = "com.fitpolo.demo.h707.ACTION_CONN_STATUS_DISCONNECTED";
     // 命令结果
-    public static final String ACTION_ORDER_RESULT = "com.moko.fitpolo.ACTION_ORDER_RESULT";
-    public static final String ACTION_ORDER_TIMEOUT = "com.moko.fitpolo.ACTION_ORDER_TIMEOUT";
-    public static final String ACTION_ORDER_FINISH = "com.moko.fitpolo.ACTION_ORDER_FINISH";
-    public static final String ACTION_CURRENT_DATA = "com.moko.fitpolo.ACTION_CURRENT_DATA";
+    public static final String ACTION_ORDER_RESULT = "com.fitpolo.demo.h707.ACTION_ORDER_RESULT";
+    public static final String ACTION_ORDER_TIMEOUT = "com.fitpolo.demo.h707.ACTION_ORDER_TIMEOUT";
+    public static final String ACTION_ORDER_FINISH = "com.fitpolo.demo.h707.ACTION_ORDER_FINISH";
+    public static final String ACTION_CURRENT_DATA = "com.fitpolo.demo.h707.ACTION_CURRENT_DATA";
 
     // extra_key
     public static final String EXTRA_KEY_RESPONSE_ORDER_TASK = "EXTRA_KEY_RESPONSE_ORDER_TASK";

@@ -4,6 +4,26 @@
     <string name="confirm">confirm</string>
     <string name="cancel">cancel</string>
 
+    <string name="photo_sd_dismiss">There is not SD card.</string>
+    <string name="dial_custom_bg">Change background</string>
+    <string name="photo_gallery">Choose Photo</string>
+    <string name="photo_camera">Take Photo</string>
+    <string name="setting_syncing">syncing</string>
+    <string name="setting_sync_failed">your setting is failed,try again.</string>
+    <string name="progress_tips">Syncing %d%%...</string>
+    <string name="upgrade_title">Firmware is updating.</string>
+    <string name="upgrade_tips">The process is about 5mins.\nKeep the phone close to the band.\nPlease don\'t turn off the Bluetooth of the phone.</string>
+    <string name="upgrade_updating">Firmware is updating.</string>
+    <string name="upgrade_error">The update is failed.</string>
+    <string name="upgrade_success">The update is successful.If the APP can\'t connect the band,please reboot the phone,then try it again.</string>
+    <string name="upgrade_firmware">Update Firmware</string>
+    <string name="upgrade_result">Result</string>
+    <string name="match_pair_firstly">Please pair the band first.</string>
+
+    <string name="permission_camera_close_title">Camera permission is not available</string>
+    <string name="permission_camera_close_content">Please find it in cellphone setting- permission, and allow Fitpolo use camera permission</string>
+    <string name="permission_camera_need_title">Turn on camera permission </string>
+    <string name="permission_camera_need_content">After that, can use the camera</string>
     <string name="permission_storage_close_title">Storage permission is not available</string>
     <string name="permission_storage_close_content">Please find it in cellphone setting- permission, and allow FitpoloDemo use the storage permission</string>
     <string name="permission_open">OK</string>

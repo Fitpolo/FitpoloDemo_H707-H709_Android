@@ -9,6 +9,9 @@ import java.io.Serializable;
  * @ClassPath com.fitpolo.support.entity.OrderEnum
  */
 public enum OrderEnum implements Serializable {
+    GET_CRC_VERIFY_RESULT("CRC校验", 0x28),
+    OPEN_NOTIFY("打开设备通知", 0),
+
     READ_NOTIFY("打开读取通知", 0),
     WRITE_NOTIFY("打开设置通知", 0),
     STEP_NOTIFY("打开记步通知", 0),
@@ -57,6 +60,7 @@ public enum OrderEnum implements Serializable {
     Z_WRITE_CUSTOM_SORT_SCREEN("设置自定义屏幕排序", 0x1E),
     Z_WRITE_NODISTURB("设置勿扰模式", 0x0C),
     Z_WRITE_STEP_INTERVAL("设置记步间隔", 0x21),
+    Z_WRITE_SCREEN_BG("设置屏幕背景", 0x22),
 
     Z_READ_STEPS("读取记步", 0x01),
     Z_STEPS_CHANGES_LISTENER("监听记步", 0x03),

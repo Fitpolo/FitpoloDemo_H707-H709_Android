@@ -166,7 +166,7 @@
                     android:text="getHeartRateInterval" />
             </TableRow>
 
-            <TableRow>
+            <TableRow android:id="@+id/tr_custom_screen">
 
                 <Button
                     android:layout_width="match_parent"
@@ -267,6 +267,7 @@
                     android:onClick="getShakeStrength"
                     android:text="getShakeStrength" />
             </TableRow>
+
             <TableRow>
 
                 <Button
@@ -424,6 +425,13 @@
                     android:onClick="getSportHeartRate"
                     android:text="getSportHeartRate" />
             </TableRow>
+
+            <Button
+                android:id="@+id/btn_set_screen_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="setScreenBG"
+                android:text="setScreenBG" />
 
         </TableLayout>
     </ScrollView>

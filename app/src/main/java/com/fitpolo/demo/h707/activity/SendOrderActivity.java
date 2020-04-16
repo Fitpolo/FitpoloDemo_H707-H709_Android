@@ -16,6 +16,8 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
+import android.widget.TableRow;
 import android.widget.Toast;
 
 import com.fitpolo.demo.h707.AppConstants;
@@ -91,6 +93,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import no.nordicsemi.android.dfu.DfuProgressListener;
 import no.nordicsemi.android.dfu.DfuProgressListenerAdapter;
@@ -105,6 +108,10 @@ import no.nordicsemi.android.dfu.DfuServiceListenerHelper;
 
 public class SendOrderActivity extends BaseActivity {
     private static final String TAG = "SendOrderActivity";
+    @Bind(R.id.tr_custom_screen)
+    TableRow trCustomScreen;
+    @Bind(R.id.btn_set_screen_bg)
+    Button btnSetScreenBg;
     private MokoService mService;
     private BleDevice mDevice;
     private boolean mIsUpgrade;
@@ -115,6 +122,8 @@ public class SendOrderActivity extends BaseActivity {
         setContentView(R.layout.send_order_layout);
         ButterKnife.bind(this);
         mDevice = (BleDevice) getIntent().getSerializableExtra("device");
+        trCustomScreen.setVisibility(mDevice.deviceType == 7 ? View.VISIBLE : View.GONE);
+        btnSetScreenBg.setVisibility(mDevice.deviceType == 7 ? View.GONE : View.VISIBLE);
         bindService(new Intent(this, MokoService.class), mServiceConnection, BIND_AUTO_CREATE);
     }
 
@@ -604,6 +613,12 @@ public class SendOrderActivity extends BaseActivity {
     public void getSportHeartRate(View view) {
         Calendar calendar = Utils.strDate2Calendar("2019-04-01 00:00", AppConstants.PATTERN_YYYY_MM_DD_HH_MM);
         MokoSupport.getInstance().sendOrder(new ZReadSportsHeartRateTask(mService, calendar));
+    }
+
+    public void setScreenBG(View view) {
+        Intent orderIntent = new Intent(this, ChangeScreenBGActivity.class);
+        orderIntent.putExtra("device", mDevice);
+        startActivity(orderIntent);
     }
 
 
