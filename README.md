@@ -56,6 +56,7 @@
 		    public String name;
 		    public int rssi;
 		    public String verifyCode;
+		    public int deviceType;
 		    public byte[] scanRecord;
 			...
 		}
@@ -122,6 +123,8 @@ Abstract class command, including command enumeration, command response callback
 1. OrderType
 
 		public enum OrderType implements Serializable {
+			NOTIFY("NOTIFY", "0000ffc2-0000-1000-8000-00805f9b34fb"),
+			WRITE("WRITE", "0000ffc1-0000-1000-8000-00805f9b34fb"),
 			READ_CHARACTER("READ_CHARACTER", "0000ffb0-0000-1000-8000-00805f9b34fb"),
 			WRITE_CHARACTER("WRITE_CHARACTER", "0000ffb1-0000-1000-8000-00805f9b34fb"),
 			STEP_CHARACTER("STEP_CHARACTER", "0000ffb2-0000-1000-8000-00805f9b34fb"),
@@ -456,8 +459,11 @@ OrderTask：
 	    incoming parameter need timestamp
 	    lastSyncTime;// yyyy-MM-dd HH:mm
 	    MokoSupport.getInstance().getSportsHeartRates();
-
-
+	48.Set the dial screen bg
+	    ZWriteScreenBGTask
+	    incoming parameter need fileSize,index
+	    If the dial is set to 3 and the background index is set to 0
+	    If the dial is set to 4 and the background index is set to 1
 ​
 
 ### 2.5	sendDirectOrder
@@ -485,6 +491,21 @@ judge if the bracelet is connected with app
 disconnect the bracelet
 
 	public void disConnectBle(){}
+	
+### 2.9	UpgradeHandler
+
+send the file to the device
+
+	UpgradeHandler  upgradeHandler = new UpgradeHandler(Context context);
+	upgradeHandler.setFilePath(String filePath, String address, IUpgradeCallback callback);
+	
+The device disconnects before sending the file, connected again after 4 seconds, and the file will be sent after CRC verification
+
+	public void sendUpgradeOrder(OrderTask orderTask, IUpgradeDataListener IUpgradeDataListener);
+	
+eg.
+
+	com.fitpolo.demo.h707.activityChangeScreenBGActivity
 
 ## 3.Save Log to SD Card
 
